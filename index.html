@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    *{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+background-color: #0075ffcf;
+text-align: center;
+}
+.container{
+    height: 70vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+}
+
+
+.game{
+    height: 60vmin;
+    width: 60vmin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+}
+.box{
+    height: 18vmin;
+    width: 18vmin;
+    border-radius: 1rem;
+    border: none;
+    border-right:3px solid black ;
+    border-bottom:3px solid black ;
+    box-shadow: 0 0 5px black;
+    font-size: 50px;
+    color: rgb(255, 65, 1);
+    font-weight: 200;
+    background-color: #ffebd5;
+
+    
+}
+.reset{
+    height: 40px;
+    width: 90px;
+    border: none;
+    font-size: large;
+    border-radius: 7px;
+    background-color: black;
+    color: aliceblue;
+    font-size: 20px;
+   
+}
+.winner > p{
+color: yellow;
+font-size: 45px;
+
+}
+</style>
+</head>
+<body>
+   <div class="winner">
+  <p>winner is:</p>
+   </div>
+    <h1>
+        Tic tac toe
+    </h1>
+    <div class="container">
+        <div class="game">
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+            <button class="box"></button>
+        </div>
+       
+    </div>
+    <button class="reset">
+        Reset
+    </button>
+    <script>
+        let btn = document.querySelectorAll(".box");
+        let reset  = document.querySelector(".reset");
+        let para = document.querySelector(".winner p");
+        let turn0 = true;
+        let winpatterns = [
+            [0,3,6],
+            [0,1,2],
+            [0,4,8],
+            [1,4,7],
+            [2,5,8],
+            [2,4,6],
+            [3,4,5],
+            [6,7,8],
+        ];
+const showinner = (pvalue) =>{
+    para.innerText = "winner is:" +"" + pvalue ;
+}
+        btn.forEach((box) => {
+            box.addEventListener("click" , () => {
+                console.log("box was clicked")
+                if (turn0) {
+                    box.innerText = "O";
+                    turn0 = false;
+                } else {
+                    box.innerText = "X";
+                    turn0 = true;
+                }
+                box.disabled = true;
+                winner(); // Check for a winner after each move
+            });
+        });
+        const resetbtn = () => {
+        turn0 = true;
+        for (let box of btn) {
+            para.innerText = "";
+            box.innerText = ""; // Reset text content
+            box.disabled = false; // Enable the buttons
+        }
+    };
+const disable = () => {
+    for(let box of btn){
+        box.disabled = true;
+    }
+}
+        const winner = () => {
+            for (let pattern of winpatterns) {
+                let pvalue = btn[pattern[0]].innerText;
+                let pvalue2 = btn[pattern[1]].innerText;
+                let pvalue3 = btn[pattern[2]].innerText;
+                if (pvalue !== "" && pvalue2 !== "" && pvalue3 !== ""){
+                    if (pvalue === pvalue2 && pvalue2 === pvalue3) {
+                        console.log("winner" , pvalue);
+                        disable();
+                        showinner(pvalue);
+                    }
+                }
+            }
+            reset.addEventListener("click",resetbtn)
+        };
+    </script>
+</body>
+</html>
